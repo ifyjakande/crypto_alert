@@ -64,7 +64,7 @@ class CryptoAlertSystem:
         self.df = df
         self.slack_client = WebClient(token=slack_token)
         self.channel = "#real-time-crypto-analytics"
-        self.timestamp = datetime.now(pytz.timezone('UTC')).strftime("%Y-%m-%d %H:%M UTC")
+        self.timestamp = datetime.now(pytz.timezone('Africa/Lagos')).strftime("%Y-%m-%d %H:%M WAT")
 
     def send_slack_message(self, message):
         """Sends formatted message to Slack"""
