@@ -199,7 +199,7 @@ class CryptoAlertSystem:
         else:
             message += "No unusual volume patterns detected\n"
         
-        # Add top volume gainers and losers
+        # Top volume gainers and losers
         message += "\n*24h Volume Changes*:\n"
         top_gainers = self.df.nlargest(3, 'Volume_vs_Avg')
         for _, row in top_gainers.iterrows():
