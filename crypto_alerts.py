@@ -156,17 +156,54 @@ class CryptoAlertSystem:
     def _generate_volume_alerts(self, volume_threshold=2.0):
         """Generates volume analysis alerts message"""
         self.df['Volume_to_Market_Cap'] = self.df['Volume_24h'] / self.df['Market_Cap']
-        unusual_volume = self.df[self.df['Volume_to_Market_Cap'] > volume_threshold]
+        
+        # Calculate average 24h volume
+        avg_volume = self.df['Volume_24h'].mean()
+        self.df['Volume_vs_Avg'] = self.df['Volume_24h'] / avg_volume
+        
+        # Find coins with unusual volume
+        unusual_volume = self.df[
+            (self.df['Volume_to_Market_Cap'] > volume_threshold) |
+            (self.df['Volume_vs_Avg'] > 3.0)  # Volume 3x above average
+        ]
         
         message = "📊 *VOLUME ALERTS*\n"
+        message += f"Market Average 24h Volume: ${avg_volume/1e6:.2f}M\n\n"
+        
         if len(unusual_volume) > 0:
+            # Sort by volume
+            unusual_volume = unusual_volume.sort_values('Volume_24h', ascending=False)
+            
             for _, row in unusual_volume.iterrows():
-                if row['24h_Change'] > 0:
-                    message += f"📈 *{row['Symbol']}*: High volume with +{row['24h_Change']:.2f}% price increase\n"
+                volume_multiple = row['Volume_vs_Avg']
+                price_change = row['24h_Change']
+                volume_usd = row['Volume_24h']
+                
+                # Determine volume strength indicators
+                if volume_multiple > 5:
+                    volume_indicator = "🔥 *Extremely High Volume*"
+                elif volume_multiple > 3:
+                    volume_indicator = "⚡ *Very High Volume*"
                 else:
-                    message += f"📉 *{row['Symbol']}*: High volume with {row['24h_Change']:.2f}% price decrease\n"
+                    volume_indicator = "📈 *High Volume*"
+                
+                message += f"{volume_indicator} {row['Symbol']}:\n"
+                message += f"• Volume: ${volume_usd/1e6:.2f}M ({volume_multiple:.1f}x market average)\n"
+                
+                if price_change > 0:
+                    message += f"• Price: ${row['Price']:.2f} (+{price_change:.2f}%)\n"
+                else:
+                    message += f"• Price: ${row['Price']:.2f} ({price_change:.2f}%)\n"
+                
+                message += f"• Volume/Market Cap Ratio: {row['Volume_to_Market_Cap']:.3f}\n\n"
         else:
             message += "No unusual volume patterns detected\n"
+        
+        # Add top volume gainers and losers
+        message += "\n*24h Volume Changes*:\n"
+        top_gainers = self.df.nlargest(3, 'Volume_vs_Avg')
+        for _, row in top_gainers.iterrows():
+            message += f"📈 *{row['Symbol']}* volume {row['Volume_vs_Avg']:.1f}x above average\n"
         
         return message
 
