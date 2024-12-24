@@ -1,8 +1,10 @@
 # Crypto Analytics Bot 🤖
 
-A real-time cryptocurrency analytics bot that sends automated alerts and market insights to Slack. The bot monitors cryptocurrency markets and provides detailed analysis including market overview, volatility alerts, relative strength indicators, volume analysis, and momentum signals.
+A real-time cryptocurrency analytics bot that sends automated alerts and market insights to Slack. The bot monitors the top 100 cryptocurrencies by market cap and provides detailed analysis including market overview, volatility alerts, relative strength indicators, volume analysis, and momentum signals.
 
 ## Features 🌟
+
+> **Note:** All analyses and alerts are based on the top 100 cryptocurrencies by market capitalization.
 
 ### Market Overview 📊
 - Total market capitalization in billions USD
@@ -138,7 +140,6 @@ Contributions are welcome! Please feel free to submit a Pull Request. Areas for 
 - Custom alert thresholds
 - More timeframe analyses
 - Enhanced volume metrics
-
 
 ## Disclaimer ⚠️
 
