@@ -1,35 +1,49 @@
 # Crypto Analytics Bot 🤖
 
-A real-time cryptocurrency analytics bot that sends automated alerts and market insights to Slack. The bot monitors cryptocurrency markets and provides detailed analysis including volatility alerts, relative strength indicators, volume analysis, and momentum signals.
+A real-time cryptocurrency analytics bot that sends automated alerts and market insights to Slack. The bot monitors cryptocurrency markets and provides detailed analysis including market overview, volatility alerts, relative strength indicators, volume analysis, and momentum signals.
 
 ## Features 🌟
 
-- **Real-time Market Overview**: 
-  - Total market capitalization
-  - Average 24-hour market movement
-  - Top cryptocurrencies by market cap
+### Market Overview 📊
+- Total market capitalization in billions USD
+- Average 24-hour market movement percentage
+- Top 3 cryptocurrencies by market cap with:
+  - Current prices
+  - 24-hour price changes
 
-- **Volatility Alerts** 🚨
-  - Identifies significant price movements
-  - Tracks both short-term (1h) and medium-term (24h) volatility
-  - Highlights potential reversal signals
+### Volatility Alerts 🚨
+- Identifies significant price movements
+- Monitors both short-term (1h) and medium-term (24h) volatility
+- Alert categories:
+  - Strong upward momentum
+  - Price stabilization after surge
+  - Strong downward momentum
+  - Potential reversal signals
 
-- **Relative Strength Analysis** 💪
-  - Compares individual cryptocurrency performance against market average
-  - Identifies outperforming and underperforming assets
-  - Tracks divergence from market trends
+### Relative Strength Analysis 💪
+- Compares individual cryptocurrency performance against market average
+- Reports top 3 outperforming cryptocurrencies
+- Reports bottom 3 underperforming cryptocurrencies
+- Includes percentage difference from market average
+- Shows actual 24h price changes
 
-- **Volume Analysis** 📊
-  - Monitors unusual trading volumes
-  - Calculates volume multiples compared to market average
-  - Identifies volume/price divergences
-  - Volume to market cap ratio analysis
-  - Highlights extremely high volume events
+### Volume Analysis 📊
+- Market average 24h volume baseline
+- Three volume alert levels:
+  - 🔥 Extremely High Volume (>5x average)
+  - ⚡ Very High Volume (3-5x average)
+  - 📈 High Volume (>2x average)
+- Volume metrics per coin:
+  - Volume in USD millions
+  - Multiple vs market average
+  - Volume/Market Cap ratio
+- Top 3 volume gainers compared to market average
 
-- **Momentum Tracking** 🔄
-  - Multi-timeframe momentum analysis
-  - Weighted scoring system across different periods
-  - Identification of strong trending movements
+### Momentum Tracking 🔄
+- Multi-timeframe momentum analysis (1h, 24h, 7d)
+- Weighted scoring system
+- Separate tracking for positive and negative momentum
+- Detailed breakdown of changes across all timeframes
 
 ## Setup Instructions 🛠️
 
@@ -43,7 +57,7 @@ A real-time cryptocurrency analytics bot that sends automated alerts and market 
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/crypto_alert.git
+git clone https://github.com/ifyjakande/crypto_alert.git
 cd crypto_alert
 ```
 
@@ -70,16 +84,45 @@ pip install -r requirements.txt
      - `SLACK_TOKEN`: Your Slack Bot User OAuth Token
      - `CMC_API_KEY`: Your CoinMarketCap API key
 
-## Usage 📱
+## Alert Thresholds ⚙️
 
-The bot runs automatically every 30 minutes via GitHub Actions. Each alert message includes:
+### Volatility
+- Short-term: 3% change in 1 hour
+- Medium-term: 9% change in 24 hours (3x the short-term threshold)
+- Triggers different alert types based on combination of 1h and 24h changes
 
-- Timestamp (West Africa Time)
-- Market overview
-- Volatility alerts
-- Relative strength analysis
-- Volume analysis
-- Momentum signals
+### Volume
+- Primary triggers:
+  - Volume/Market Cap ratio > 2.0
+  - Volume > 3x market average
+- Volume strength categories:
+  - Extremely High: >5x market average
+  - Very High: 3-5x market average
+  - High: >2x market average
+
+### Relative Strength
+- Compares individual 24h change against market average
+- Reports top 3 outperforming and bottom 3 underperforming coins
+- Calculates exact deviation from market average
+
+### Momentum
+- Weighted score calculation: 
+  - 30% weight: 1-hour change
+  - 40% weight: 24-hour change
+  - 30% weight: 7-day change
+- Significant momentum threshold: ±10
+- Reports both positive and negative momentum patterns
+
+## Automation ⚡
+
+The bot runs automatically via GitHub Actions:
+- Scheduled every 30 minutes
+- Each report includes:
+  - Timestamp in West Africa Time (WAT)
+  - Complete market overview
+  - All active alerts
+  - Volume analysis
+  - Momentum signals
 
 ### Manual Trigger
 
@@ -88,24 +131,18 @@ You can manually trigger the alerts:
 2. Select the "Crypto Alerts" workflow
 3. Click "Run workflow"
 
-## Alert Thresholds ⚙️
-
-- **Volatility**: 
-  - Short-term: 3% change in 1 hour
-  - Medium-term: 9% change in 24 hours
-
-- **Volume**: 
-  - 2x Volume/Market Cap ratio
-  - 3x above market average volume
-  - 5x for extremely high volume alert
-
-- **Momentum**: 
-  - Score calculation: `(1h_Change * 0.3) + (24h_Change * 0.4) + (7d_Change * 0.3)`
-  - Significant momentum threshold: ±10
-
 ## Contributing 🤝
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please feel free to submit a Pull Request. Areas for potential enhancement:
+- Additional technical indicators
+- Custom alert thresholds
+- More timeframe analyses
+- Enhanced volume metrics
+
+
+## Disclaimer ⚠️
+
+This bot is for informational purposes only. The alerts and analyses provided should not be considered as financial advice. Always do your own research and consider consulting with a financial advisor before making investment decisions.
 
 ---
-*Note: This bot is for informational purposes only and should not be considered as financial advice.*
+*Built with Python 3.11, using CoinMarketCap API for data and Slack SDK for notifications.*
