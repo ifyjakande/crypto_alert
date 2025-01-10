@@ -2,7 +2,7 @@
 
 A real-time cryptocurrency analytics bot that sends automated alerts and market insights to Slack. The bot monitors the top 100 cryptocurrencies by market cap and provides detailed analysis including market overview, volatility alerts, relative strength indicators, volume analysis, and momentum signals.
 
-🔔 **[Join our Slack channel](https://join.slack.com/share/enQtODI0MjM0NjU2NDcyMy03NDJjMmM3ZGRiNmJmMTYzYjMzMjExN2ZlZDVjNThiNmI0MWM3YzY4ZTRkOTc0MWI5ZjRjZTIxZDNlZTg1NTJm)** to receive real-time crypto alerts!
+🔔 **[Join the Slack channel](https://join.slack.com/share/enQtODI0MjM0NjU2NDcyMy03NDJjMmM3ZGRiNmJmMTYzYjMzMjExN2ZlZDVjNThiNmI0MWM3YzY4ZTRkOTc0MWI5ZjRjZTIxZDNlZTg1NTJm)** to receive real-time crypto alerts!
 
 ## Features 🌟
 
